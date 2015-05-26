@@ -1,0 +1,10 @@
+[package]
+name = "test_hyper"
+version = "0.1.0"
+authors = ["Dzmitry_Misiuk <minsler.by@gmail.com>"]
+
+
+[dependencies]
+hyper="*"
+rustc-serialize = "*"
+url = "*"
