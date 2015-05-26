@@ -6,5 +6,6 @@ authors = ["Dzmitry_Misiuk <minsler.by@gmail.com>"]
 
 [dependencies]
 hyper="*"
-rustc-serialize = "*"
-url = "*"
+rustc-serialize="*"
+url="*"
+serde="*"
