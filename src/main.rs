@@ -1,6 +1,9 @@
 extern crate hyper;
 extern crate url;
 extern crate serde;
+extern crate rustc_serialize;
+
+use rustc_serialize::json as rjson;
 
 use hyper::client::Client;
 use hyper::header::ContentType;
@@ -37,7 +40,10 @@ fn main() {
 
     match r_post {
         Ok(response) => {
-            println!("{}", response.body)
+            //println!("{}", response.body);
+            let json_resp = rjson::Json::from_str(&response.body).unwrap();
+            println!("{}", json_resp);
+            println!("Debug: {:?}", json_resp.as_object().unwrap());
         },
         Err(e) => println!("Some error occured: {:?}", e)
     }
