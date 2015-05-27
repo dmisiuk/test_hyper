@@ -2,6 +2,7 @@ extern crate hyper;
 extern crate url;
 extern crate serde;
 extern crate rustc_serialize;
+extern crate test_hyper;
 
 use rustc_serialize::json as rjson;
 
@@ -12,6 +13,7 @@ use std::io::Read;
 use url::Url;
 use hyper::status::StatusCode;
 use serde::json::{self,Value};
+use test_hyper::test::{get, post};
 
 pub struct HttpResponse {
     pub status: StatusCode,
@@ -49,46 +51,3 @@ fn main() {
     }
 }
 
-pub fn get(url: &Url) -> Result<HttpResponse, Error> {
-    let mut client = Client::new();
-    let result_response = client.get(&url.to_string()).send();
-    match result_response {
-        Ok(mut res) => {
-            let mut body = String::new();
-            let result = res.read_to_string(&mut body);
-            match result {
-                Ok(_) => {
-                    Ok(HttpResponse{status: res.status, body: body})
-                },
-                Err(err) => {
-                    Err(Error::Io(err))
-                }
-            }
-        },
-        Err(err) => Err(err)
-    }
-}
-
-
-pub fn post(url: &Url) -> Result<HttpResponse, Error> {
-    let mut client = Client::new();
-    let result_response = client.post(&url.to_string())
-        .header(ContentType::json())
-        .body("{add: {doc: {id: \"7\", title: \"petia2\", v: {inc: 1}}, boost: 1, overwrite: true, commitWithin: 1000}}")
-        .send();
-    match result_response {
-        Ok(mut res) => {
-            let mut body = String::new();
-            let result = res.read_to_string(&mut body);
-            match result {
-                Ok(_) => {
-                    Ok(HttpResponse{status: res.status, body: body})
-                },
-                Err(err) => {
-                    Err(Error::Io(err))
-                }
-            }
-        },
-        Err(err) => Err(err)
-    }
-}
