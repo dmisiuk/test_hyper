@@ -9,6 +9,10 @@ services:
 
 
 before_install:
-
+  - wget http://archive.apache.org/dist/lucene/solr/5.1.0/solr-5.1.0.tgz -O /tmp/solr-5.1.0.tgz
+  - tar -zxf solr-5.1.0.tgz
+  - cd solr-5.1.0
+  - bin/solr start -e cloud -noprompt
+  - cd ../
 
 before_script:
